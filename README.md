@@ -1,7 +1,7 @@
 # Attendance Tracker
 This web application can be used to track attendace by scanning barcodes with your smartphone camera.
 
-A Python Flask backend is being used to talk to a MySQL database and a React frontend is being used to dynamically update the browser with information about attendance.
+A Python Flask backend is used to talk to a MySQL database and a React frontend is used to dynamically update the browser with information about attendance.
 
 ## Setup
 1. Ensure you have Python 3 installed (project was developed using Python 3.6). Installation instructions are provided [here](http://docs.python-guide.org/en/latest/starting/installation/).

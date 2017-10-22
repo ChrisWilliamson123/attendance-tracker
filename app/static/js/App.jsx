@@ -1,15 +1,14 @@
 import Quagga from 'quagga';
 import React, { Component } from 'react';
+import Scanner from './Scanner';
 
 require('../css/App.css');
-require('../css/fullstack.css');
 
 Quagga.onProcessed(function(result) {
   const canvas = document.querySelector(".drawingBuffer"),
         canvasContext = canvas.getContext("2d");
 
   if (result) {
-    console.log('here');
     if (result.boxes) {
       canvasContext.clearRect(0, 0, parseInt(canvas.getAttribute("width"), 10), parseInt(canvas.getAttribute("height"), 10));
       result.boxes.filter(function (box) {
@@ -56,51 +55,6 @@ class App extends Component {
         <Scanner
           incrementAttendance={this.incrementAttendance}
         />
-      </div>
-    );
-  }
-}
-
-class Scanner extends React.Component {
-
-  processImage = (changeEvent) => {
-    this.props.incrementAttendance();
-  }
-
-  startScanning = () => {
-    Quagga.init({
-      inputStream : {
-        name : "Live",
-        type : "LiveStream"
-      },
-      decoder : {
-        readers : ["code_128_reader"]
-      }
-    }, function(err) {
-      if (err) {
-          console.log(err);
-          throw err;
-      }
-      console.log("Initialization finished. Ready to start");
-      Quagga.start();
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <button onClick={this.startScanning}>Start scanning</button>
-        <input
-          type="file"
-          accept="image/*"
-          capture="camera"
-          onChange={this.processImage}
-          className="cameraInput"
-        />
-        <div id="interactive" className="viewport">
-          <video autoPlay="true" preload="auto" src="" muted="true" playsInline="true"></video>
-          <canvas className="drawingBuffer" width="640" height="480"></canvas>
-        </div>
       </div>
     );
   }

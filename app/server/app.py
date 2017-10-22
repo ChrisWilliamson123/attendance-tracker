@@ -1,5 +1,10 @@
 import random
 from flask import Flask, render_template
+from werkzeug.serving import run_simple
+import ssl
+
+ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+ctx.load_cert_chain('server.crt', 'server.key')
 
 def get_hello():
     greeting_list = ['Ciao', 'Hei', 'Salut', 'Hola', 'Hallo', 'Hej']
@@ -16,4 +21,4 @@ def hello():
     return get_hello()
 
 if __name__ == '__main__':
-    app.run()
+    run_simple('0.0.0.0', 4000, app, ssl_context=ctx)

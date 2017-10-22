@@ -1,30 +1,17 @@
 import Quagga from 'quagga';
 import React, { Component } from 'react';
+import { quaggaConfig } from './utils';
 
 class Scanner extends React.Component {
 
-  processImage = (changeEvent) => {
+  processImage = () =>
     this.props.incrementAttendance();
-  }
 
-  startScanning = () => {
-    Quagga.init({
-      inputStream : {
-        name : "Live",
-        type : "LiveStream"
-      },
-      decoder : {
-        readers : ["code_128_reader"]
-      }
-    }, function(err) {
-      if (err) {
-          console.log(err);
-          throw err;
-      }
-      console.log("Initialization finished. Ready to start");
+  startScanning = () =>
+    Quagga.init(quaggaConfig, err => {
+      if (err) throw err;
       Quagga.start();
     });
-  }
 
   render() {
     return (

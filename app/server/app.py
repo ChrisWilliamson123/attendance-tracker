@@ -1,7 +1,8 @@
 import random
 from flask import Flask, render_template
 from werkzeug.serving import run_simple
-import ssl
+import ssl, sys
+
 
 ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
 ctx.load_cert_chain('server.crt', 'server.key')
@@ -21,4 +22,8 @@ def hello():
     return get_hello()
 
 if __name__ == '__main__':
-    run_simple('0.0.0.0', 4000, app, ssl_context=ctx)
+    try:
+        port = sys.argv[1]
+    except:
+        port = 5000
+    run_simple('0.0.0.0', port, app, ssl_context=ctx)

@@ -16,3 +16,15 @@ $ pip install -r requirements.txt
 $ cd app/static
 $ npm install
 ```
+
+## Usage
+1. Initiate the Flask server:
+```
+$ python app/server/app.py
+```
+2. Use the `watch` command to build the frontend assets and watch for changes:
+```
+$ cd app/static
+$ npm run watch
+```
+3. Navigate to `localhost:5000` to see the application.

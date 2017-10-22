@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.drawingBuffer, video {
+  position: absolute;
+  top: 1px;
+  left: 0;
+}
+
+#interactive {
+  position: relative;
+}

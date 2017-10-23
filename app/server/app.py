@@ -1,7 +1,7 @@
-import random
+import random, ssl, sys
 from flask import Flask, render_template
+from flask_mysqldb import MySQL
 from werkzeug.serving import run_simple
-import ssl, sys
 
 
 try:
@@ -16,9 +16,17 @@ def get_hello():
     return random.choice(greeting_list)
 
 app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+app.config['MYSQL_DATABASE_DB'] = 'attendance-tracker'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+mysql = MySQL(app)
 
 @app.route('/')
 def index():
+    conn = mysql.connect()
+    cur = conn.cursor()
+    print(cur)
     return render_template('index.html')
 
 @app.route('/hello')

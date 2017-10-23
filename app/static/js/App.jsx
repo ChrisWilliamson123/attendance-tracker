@@ -31,7 +31,7 @@ Quagga.onProcessed(function(result) {
 class App extends Component {
   constructor() {
     super();
-
+    
     this.state = {
       attendance: 0
     }

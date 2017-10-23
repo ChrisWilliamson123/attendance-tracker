@@ -24,7 +24,7 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    args = len(sys.argv)
-    ip = sys.argv[1] if 1 < args else '0.0.0.0'
-    port = sys.argv[2] if 2 < args else 5000
+    arg_len = len(sys.argv)
+    ip = sys.argv[1] if 1 < arg_len else '0.0.0.0'
+    port = sys.argv[2] if 2 < arg_len else 5000
     run_simple(ip, port, app, ssl_context=ctx) if ctx else run_simple(ip, port, app)

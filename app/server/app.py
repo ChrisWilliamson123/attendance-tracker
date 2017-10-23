@@ -4,8 +4,12 @@ from werkzeug.serving import run_simple
 import ssl, sys
 
 
-ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-ctx.load_cert_chain('server.crt', 'server.key')
+try:
+  ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+  ctx.load_cert_chain('server.crt', 'server.key')
+except (FileNotFoundError):
+  # No ssl cert was found, continue without TLS.
+  pass
 
 def get_hello():
     greeting_list = ['Ciao', 'Hei', 'Salut', 'Hola', 'Hallo', 'Hej']

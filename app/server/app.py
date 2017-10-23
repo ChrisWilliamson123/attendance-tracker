@@ -3,19 +3,16 @@ from flask import Flask, render_template
 from flask_mysqldb import MySQL
 from werkzeug.serving import run_simple
 
-ssl_enabled = True
+
 try:
   ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
   ctx.load_cert_chain('server.crt', 'server.key')
 except (FileNotFoundError):
   # No ssl cert was found, continue without TLS.
-  ssl_enabled = False
+  ctx = None
 
 app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
-app.config['MYSQL_USER'] = os.environ['MYSQL_USER']
-app.config['MYSQL_PASSWORD'] = os.environ['MYSQL_PASSWORD']
-app.config['MYSQL_DB'] = os.environ['MYSQL_DB']
-app.config['MYSQL_HOST'] = os.environ['MYSQL_HOST']
+app.config.from_object('config')
 
 mysql = MySQL(app)
 
@@ -27,15 +24,7 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    try:
-      ip = sys.argv[1]
-    except:
-      ip = '0.0.0.0'
-    try:
-      port = sys.argv[2]
-    except:
-      port = 5000
-    if ssl_enabled:
-        run_simple(ip, port, app, ssl_context=ctx)
-    else:
-        run_simple(ip, port, app)
+    args = len(sys.argv)
+    ip = sys.argv[1] if 1 < args else '0.0.0.0'
+    port = sys.argv[2] if 2 < args else 5000
+    run_simple(ip, port, app, ssl_context=ctx) if ctx else run_simple(ip, port, app)

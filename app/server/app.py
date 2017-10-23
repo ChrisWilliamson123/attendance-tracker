@@ -27,7 +27,11 @@ def hello():
 
 if __name__ == '__main__':
     try:
-        port = sys.argv[1]
+      ip = sys.argv[1]
     except:
-        port = 5000
-    run_simple('0.0.0.0', port, app, ssl_context=ctx)
+      ip = '0.0.0.0'
+    try:
+      port = sys.argv[2]
+    except:
+      port = 5000
+    run_simple(ip, port, app, ssl_context=ctx)

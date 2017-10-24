@@ -1,7 +1,7 @@
 import os, random, ssl, sys
 from flask import Flask, render_template
-from flask_mysqldb import MySQL
 from werkzeug.serving import run_simple
+from db import DatabaseManager
 
 
 try:
@@ -13,14 +13,10 @@ except (FileNotFoundError):
 
 app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
 app.config.from_object('config')
-
-mysql = MySQL(app)
+db_manager = DatabaseManager('test.db')
 
 @app.route('/')
 def index():
-    cur = mysql.connection.cursor()
-    a = cur.execute('''CREATE TABLE Attendees (ID int)''')
-    print(a)
     return render_template('index.html')
 
 if __name__ == '__main__':

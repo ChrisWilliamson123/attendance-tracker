@@ -1,0 +1,56 @@
+rpc CheckTicket [auth = true];
+CheckTicketRequest {
+  // The id of the ticket.
+  int ticket_id;
+  // If the ticket holder is trying to get in or out
+  Direction direction;
+  // The id of the gate used
+  int gate_id;
+};
+CheckTicketResponse {
+  // If the ticket holder should be able to enter
+  EntryEvent status;
+};
+
+EntryEvent {
+  // What the action should be for the doorman
+  Action action;
+  // A message explaining the action (required).
+  string message;
+  // If the ticket holder was moving in or out
+  Direction direction;
+  // The id of the gate used
+  int gate_id;
+  // Unix time of entry
+  long time;
+  
+  Action {
+    Enter; // Ticket holder should enter
+    Deny;  // Ticket holder should not enter
+  }
+}
+
+Direction {
+  In;
+  Out;
+}
+
+rpc GetTicketStatus [auth = true];
+GetTicketStatusRequest {
+  // The id of the ticket.
+  int ticket_id;
+}
+
+GetTicketStatusResponse {
+  List<EntryEvent> entries;
+}
+
+rpc GetEventStatus; // No auth
+GetEventStatusRequest {
+  // No args
+}
+
+GetEventStatusResponse {
+  // The number of people in the event
+  int numPersons;
+}

@@ -1,25 +1,62 @@
 """
 Main entry point for the server
-
-TODO: Refactor this class so the index blueprint is not inside,
-      or move the server starting to server.py
 """
+import argparse
+from flask import Flask, render_template
+from flask_mysqldb import MySQL
+from werkzeug.serving import run_simple
 
-from server import Server
-from flask import Blueprint, render_template
+# Blueprint imports
+import index
 
-index_page = Blueprint('index_page', __name__)
+class Server:
+  def __init__(self):
+    parser = argparse.ArgumentParser(
+        description='Backend server for the attendence tracker.')
+    parser.add_argument(
+        '--hostname',
+        metavar='h',
+        type=str,
+        help='The ip/website to serve on',
+        default='localhost')
+    parser.add_argument(
+        '--port',
+        metavar='p',
+        type=int,
+        help='The port to serve on',
+        default=8080)
+    parser.add_argument(
+        '--ssl_cert',
+        type=str,
+        help='The SSL certificate file to use')
+    parser.add_argument(
+        '--ssl_key',
+        type=str,
+        help='The SSL key file to use')
 
-@index_page.route('/')
-def index():
-    try:
-      cur = server.database.connection.cursor()
-      a = cur.execute('''CREATE TABLE Attendees (ID int)''')
-      print(a)
-    except:
-      pass
-    return render_template('index.html')
+    self.args = parser.parse_args()
+
+  def start(self, blueprints=[]):
+    # Initialise the server w/ the static folders
+    app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
+    app.config.from_object('config')
+    # Set up the database
+    self.database = MySQL(app)
+
+    # Parse the optional arguments
+    optional_args = {}
+    if self.args.ssl_cert and self.args.ssl_key:
+      ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+      ctx.load_cert_chain('server.crt', 'server.key')
+      optional_args['ssl_context'] = ctx
+
+    # Register the blueprints
+    for blueprint in blueprints:
+      app.register_blueprint(blueprint)
+
+    # Run the server with the desired config
+    run_simple(self.args.hostname, self.args.port, app, **optional_args)
 
 if __name__ == '__main__':
   server = Server()
-  server.start([index_page])
+  server.start([index.blueprint])

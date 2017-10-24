@@ -1,30 +1,25 @@
-import os, random, ssl, sys
-from flask import Flask, render_template
-from flask_mysqldb import MySQL
-from werkzeug.serving import run_simple
+"""
+Main entry point for the server
 
+TODO: Refactor this class so the index blueprint is not inside,
+      or move the server starting to server.py
+"""
 
-try:
-  ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-  ctx.load_cert_chain('server.crt', 'server.key')
-except (FileNotFoundError):
-  # No ssl cert was found, continue without TLS.
-  ctx = None
+from server import Server
+from flask import Blueprint, render_template
 
-app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
-app.config.from_object('config')
+index_page = Blueprint('index_page', __name__)
 
-mysql = MySQL(app)
-
-@app.route('/')
+@index_page.route('/')
 def index():
-    cur = mysql.connection.cursor()
-    a = cur.execute('''CREATE TABLE Attendees (ID int)''')
-    print(a)
+    try:
+      cur = server.database.connection.cursor()
+      a = cur.execute('''CREATE TABLE Attendees (ID int)''')
+      print(a)
+    except:
+      pass
     return render_template('index.html')
 
 if __name__ == '__main__':
-    arg_len = len(sys.argv)
-    ip = sys.argv[1] if 1 < arg_len else '0.0.0.0'
-    port = sys.argv[2] if 2 < arg_len else 5000
-    run_simple(ip, port, app, ssl_context=ctx) if ctx else run_simple(ip, port, app)
+  server = Server()
+  server.start([index_page])

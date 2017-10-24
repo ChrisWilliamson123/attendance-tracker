@@ -1,7 +1,6 @@
 import os
 
-
-MYSQL_USER = os.environ['MYSQL_USER']
-MYSQL_PASSWORD = os.environ['MYSQL_PASSWORD']
-MYSQL_DB = os.environ['MYSQL_DB']
-MYSQL_HOST = os.environ['MYSQL_HOST']
+MYSQL_USER = os.getenv('MYSQL_USER', 'admin')
+MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', 'password')
+MYSQL_DB = os.getenv('MYSQL_DB', 'test')
+MYSQL_HOST = os.getenv('MYSQL_HOST', 'localhost')

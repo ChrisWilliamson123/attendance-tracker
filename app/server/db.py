@@ -10,5 +10,4 @@ class DatabaseManager():
     def create_table(self, name, fields):
         cursor = self.connection.cursor()
         query = 'CREATE TABLE {} ({})'.format(name, self.field_list_to_string(fields))
-        print(query)
         cursor.execute(query)

@@ -7,7 +7,7 @@ from flask_mysqldb import MySQL
 from werkzeug.serving import run_simple
 
 # Blueprint imports
-import index
+import index, api
 
 class Server:
   def __init__(self):
@@ -59,4 +59,4 @@ class Server:
 
 if __name__ == '__main__':
   server = Server()
-  server.start([index.blueprint])
+  server.start([index.blueprint, api.blueprint])

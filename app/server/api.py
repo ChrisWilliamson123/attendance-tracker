@@ -38,3 +38,14 @@ def decide_response(ticket_id, direction, gate_id):
   # TODO: Decide on a response
   # TODO: Include abuse heuristics (e.g. if the same ticket has been used <n times in the past m minutes?)
   return (Action.ACCEPT, 'Auto accepted')
+
+@blueprint.route('/api/get_ticket_history', methods=['GET'])
+def get_ticket_history():
+  ticket_id = request.args.get('ticket_id')
+  
+  return json.dumps(get_ticket_history(ticket_id))
+
+def get_ticket_history(ticket_id):
+  ticket_filter = lambda row: row['id'] == ticket_id
+  return list(filter(ticket_filter, fake_database))
+

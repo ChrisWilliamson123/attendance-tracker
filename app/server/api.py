@@ -1,5 +1,6 @@
 import time
 import json
+import itertools as it
 from enum import IntEnum
 from flask import Blueprint, render_template, request, jsonify
 
@@ -49,3 +50,17 @@ def get_ticket_history(ticket_id):
   ticket_filter = lambda row: row['id'] == ticket_id
   return list(filter(ticket_filter, fake_database))
 
+@blueprint.route('/api/get_event_status', methods=['GET'])
+def get_event_status():
+  total_events = len(fake_database)
+  out = {}
+  for entry in fake_database:
+    if not entry['id'] in out:
+      out[entry['id']] = []
+    out[entry['id']].append(1 if entry['direction'] == Direction.IN else -1)
+  total = 0
+  for ticket in out:
+    in_event = sum(out[ticket]) > 0
+    if in_event:
+      total += 1
+  return json.dumps({'total_events':total_events,'current_population':total})

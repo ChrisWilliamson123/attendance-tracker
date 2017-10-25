@@ -35,13 +35,13 @@ Direction {
   Out;
 }
 
-rpc GetTicketStatus [auth = true];
-GetTicketStatusRequest {
+rpc GetTicketHistory [auth = true];
+GetTicketHistoryRequest {
   // The id of the ticket.
   int ticket_id;
 }
 
-GetTicketStatusResponse {
+GetTicketHistoryResponse {
   List<EntryEvent> entries;
 }
 

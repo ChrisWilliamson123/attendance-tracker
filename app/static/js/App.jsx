@@ -1,6 +1,7 @@
 import Quagga from 'quagga';
 import React, { Component } from 'react';
 import Scanner from './Scanner';
+import Header from './Header';
 
 require('../css/App.css');
 
@@ -50,10 +51,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Attendance Tracker</h1>
-        <p>Attendance: {this.state.attendance}</p>
+        <Header />
         <Scanner
           incrementAttendance={this.incrementAttendance}
+          attendance={this.state.attendance}
         />
       </div>
     );

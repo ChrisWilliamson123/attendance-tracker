@@ -26,6 +26,12 @@ class Server:
         help='The port to serve on',
         default=8080)
     parser.add_argument(
+        '--dbfile',
+        metavar='d',
+        type=str,
+        help='The sqlite database file',
+        default='database.db')
+    parser.add_argument(
         '--ssl_cert',
         type=str,
         help='The SSL certificate file to use')
@@ -41,7 +47,7 @@ class Server:
     app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
     app.config.from_object('config')
     # Set up the database
-    db_manager = DatabaseManager('test.db')
+    db_manager = DatabaseManager(self.args.dbfile)
 
     # Parse the optional arguments
     optional_args = {}

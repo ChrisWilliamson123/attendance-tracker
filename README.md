@@ -20,9 +20,9 @@ $ npm install
 ```
 
 ## Usage
-1. Initiate the Flask server (if no port parameter is provided it will be set to run on port 5000):
+1. Initiate the Flask server (if no port parameter is provided it will be set to run on port 8000):
 ```
-$ python app/server/app.py localhost 1234
+$ python app/server/app.py --hostname localhost --port 1234
 ```
 2. Use the `watch` command to build the frontend assets and watch for changes:
 ```

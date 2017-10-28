@@ -1,5 +1,6 @@
 import Quagga from 'quagga';
 import React, { Component } from 'react';
+import Header from './Header';
 import Scanner from './Scanner';
 import Header from './Header';
 

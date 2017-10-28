@@ -1,13 +1,11 @@
 import time
 import json
 import itertools as it
+from db import DatabaseManager
 from enum import IntEnum
 from flask import Blueprint, render_template, request, jsonify
 
 blueprint = Blueprint('api', __name__)
-
-# Mock a table
-fake_database = []
 
 class Direction(IntEnum):
   IN = 1
@@ -32,7 +30,7 @@ def process_ticket_check(ticket_id, direction, gate_id):
   response['action'] = action
   response['message'] = message
   response['time'] = int(time.time())
-  fake_database.append(response)
+  DatabaseManager().insert_event(response)
   return response
 
 def decide_response(ticket_id, direction, gate_id):
@@ -50,9 +48,12 @@ def get_ticket_history():
   return json.dumps(get_ticket_history(ticket_id))
 
 def get_ticket_history(ticket_id):
-  ticket_filter = lambda row: row['id'] == ticket_id
-  return list(filter(ticket_filter, fake_database))
+  ticket_filter = lambda row: row[0] == int(ticket_id)
+  cursor = DatabaseManager().get_entries_for_ticket(ticket_id)
+  return list(map(parse_row, filter(ticket_filter, cursor)))
 
+# TODO: Use Database Query to filter for the latest entry/exit rather than
+#       a manual query
 def is_in_event(ticket_id):
   # Get events for the ticket
   events = get_ticket_history(ticket_id)
@@ -68,9 +69,10 @@ def is_in_event(ticket_id):
 
 @blueprint.route('/api/get_event_status', methods=['GET'])
 def get_event_status():
-  total_events = len(fake_database)
   out = {}
-  for entry in fake_database:
+  all_gate_events = list(map(parse_row, DatabaseManager().get_all_entries()))
+  total_events = len(all_gate_events)
+  for entry in all_gate_events:
     # Skip failed attempts to pass the gate
     if entry['action'] == Action.DENY:
       continue
@@ -83,3 +85,10 @@ def get_event_status():
     if in_event:
       total += 1
   return json.dumps({'total_events':total_events,'current_population':total})
+
+def parse_row(row):
+  return {'id':row[0],
+          'direction':Direction(row[1]),
+          'action':Action(row[2]),
+          'message':row[3],
+          'time':row[4]}

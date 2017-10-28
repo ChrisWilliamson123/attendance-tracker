@@ -2,6 +2,7 @@
 Main entry point for the server
 """
 import argparse
+import atexit
 from flask import Flask, render_template
 from werkzeug.serving import run_simple
 from db import DatabaseManager
@@ -46,9 +47,16 @@ class Server:
     # Initialise the server w/ the static folders
     app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
     app.config.from_object('config')
-    # Set up the database
-    db_manager = DatabaseManager(self.args.dbfile)
-
+    # Set up the database, create it if required.
+    db = DatabaseManager(self.args.dbfile)
+    atexit.register(lambda: DatabaseManager().close_connection())
+    if len(db.get_table_info("event")) == 0:
+      db.create_table("event",  [('ticket_id', 'INTEGER'),
+                                 ('direction', 'INTEGER'),
+                                 ('action', 'INTEGER'),
+                                 ('message', 'TEXT'),
+                                 ('time', 'INTEGER')])
+    
     # Parse the optional arguments
     optional_args = {}
     if self.args.ssl_cert and self.args.ssl_key:

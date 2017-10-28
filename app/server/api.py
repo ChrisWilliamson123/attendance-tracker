@@ -87,7 +87,6 @@ def get_event_status():
   return json.dumps({'total_events':total_events,'current_population':total})
 
 def parse_row(row):
-  print(row)
   return {'id':row[0],
           'direction':Direction(row[1]),
           'action':Action(row[2]),

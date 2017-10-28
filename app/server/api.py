@@ -7,9 +7,6 @@ from flask import Blueprint, render_template, request, jsonify
 
 blueprint = Blueprint('api', __name__)
 
-# Mock a table
-#fake_database = []
-
 class Direction(IntEnum):
   IN = 1
   OUT = 2
@@ -33,7 +30,6 @@ def process_ticket_check(ticket_id, direction, gate_id):
   response['action'] = action
   response['message'] = message
   response['time'] = int(time.time())
-  #fake_database.append(response)
   DatabaseManager().insert_event(response)
   return response
 

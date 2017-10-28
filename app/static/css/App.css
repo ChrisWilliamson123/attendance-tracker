@@ -4,10 +4,17 @@ body {
   font-family: sans-serif;
 }
 
+.row {
+  margin-bottom: 20px;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
 .drawingBuffer, video {
-  position: absolute;
-  top: 1px;
-  left: 0;
+  width: 800px;
+  height: 450px;
 }
 
 #interactive {

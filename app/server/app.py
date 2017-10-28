@@ -3,8 +3,8 @@ Main entry point for the server
 """
 import argparse
 from flask import Flask, render_template
-from flask_mysqldb import MySQL
 from werkzeug.serving import run_simple
+from db import DatabaseManager
 
 # Blueprint imports
 import index, api
@@ -33,7 +33,7 @@ class Server:
         '--ssl_key',
         type=str,
         help='The SSL key file to use')
-
+    
     self.args = parser.parse_args()
 
   def start(self, blueprints=[]):
@@ -41,7 +41,7 @@ class Server:
     app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
     app.config.from_object('config')
     # Set up the database
-    self.database = MySQL(app)
+    db_manager = DatabaseManager('test.db')
 
     # Parse the optional arguments
     optional_args = {}

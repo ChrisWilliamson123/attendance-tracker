@@ -1,7 +1,6 @@
 import sqlite3
 
 class DatabaseManager():
-<<<<<<< HEAD
     instance = None
     def __init__(self, database_file=None):
         if DatabaseManager.instance and database_file:
@@ -29,21 +28,6 @@ class DatabaseManager():
                     return cursor.executemany(query, args)
                 else:
                     return cursor.execute(query, args)
-=======
-    def __init__(self, database_file):
-        self.connection = sqlite3.connect(database_file)
-        self.db_file = database_file
-
-    def close_connection(self):
-        self.connection.close();
-
-    def execute(self, query, args=None):
-        cursor= self.connection.cursor()
-        if args:
-            print('Executing query with args: {}, {}'.format(query, args))
-            if type(args) is list:
-                return cursor.executemany(query, args)
->>>>>>> 4545672e4bdeb1d6d9d09e9ac9a3a68c23a06b5d
             else:
                 print('Executing query: {}'.format(query))
                 return cursor.execute(query)

@@ -6,3 +6,4 @@ dist
 *.key
 *.db
 *~
+*.pyc

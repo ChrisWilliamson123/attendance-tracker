@@ -30,3 +30,9 @@ $ cd app/static
 $ npm run watch
 ```
 3. Navigate to `localhost:port` to see the application.
+
+## Running tests
+1. Add the app to your python path:
+$ export PYTHONPATH=$PYTHONPATH:/home/td/dev/barcode/attendance-tracker/app
+2. Run the test
+$ python mytest.py

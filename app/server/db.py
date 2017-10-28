@@ -3,6 +3,7 @@ import sqlite3
 class DatabaseManager():
     def __init__(self, database_file):
         self.connection = sqlite3.connect(database_file)
+        self.db_file = database_file
 
     def close_connection(self):
         self.connection.close();

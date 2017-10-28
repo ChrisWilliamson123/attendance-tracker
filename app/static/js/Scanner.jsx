@@ -20,25 +20,23 @@ class Scanner extends React.Component {
 
   render() {
     return (
-        <div id="scanner-container">
-            <Grid>
-                <Row>
-                    <Col xs={12}>
-                        <div className="text-center">
-                            <Button bsSize="large" onClick={this.startScanning}>Start Scanning</Button>
-                        </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={12}>
-                        <div id="interactive" className="viewport">
-                            <video autoPlay="true" preload="auto" src="" muted="true" playsInline="true"></video>
-                            <canvas className="drawingBuffer"></canvas>
-                        </div>
-                    </Col>
-                </Row>
-            </Grid>
-        </div>
+        <Grid>
+            <Row>
+                <Col xs={12}>
+                    <div className="text-center">
+                        <Button bsSize="large" onClick={this.startScanning}>Start Scanning</Button>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col xs={12}>
+                    <div id="interactive" className="viewport">
+                        <video autoPlay="true" preload="auto" src="" muted="true" playsInline="true"></video>
+                        <canvas className="drawingBuffer" width="0" height="0"></canvas>
+                    </div>
+                </Col>
+            </Row>
+        </Grid>
       );
 }
 }

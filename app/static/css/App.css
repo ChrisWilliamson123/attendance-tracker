@@ -12,17 +12,26 @@ body {
   margin-bottom: 0;
 }
 
-.drawingBuffer, video {
-  width: 800px;
-  height: 450px;
+video {
+  width: 90%;
+  height: 400px;
+  display: block!important;
+  margin: 0 auto;
+}
+
+.drawingBuffer {
+  width: 0;
+  height: 0;
+}
+
+@media screen and (min-width: 768px) {
+    video {
+      height: 500px;
+    }
 }
 
 #interactive {
   position: relative;
-}
-
-.App {
-  text-align: center;
 }
 
 .App-logo {

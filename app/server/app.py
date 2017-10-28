@@ -27,6 +27,12 @@ class Server:
         help='The port to serve on',
         default=8080)
     parser.add_argument(
+        '--dbfile',
+        metavar='d',
+        type=str,
+        help='The sqlite database file',
+        default='database.db')
+    parser.add_argument(
         '--ssl_cert',
         type=str,
         help='The SSL certificate file to use')
@@ -42,7 +48,7 @@ class Server:
     app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
     app.config.from_object('config')
     # Set up the database, create it if required.
-    db = DatabaseManager('test.db')
+    db = DatabaseManager(self.args.dbfile)
     atexit.register(lambda: DatabaseManager().close_connection())
     if len(db.get_table_info("event")) == 0:
       db.create_table("event",  [('ticket_id', 'INTEGER'),

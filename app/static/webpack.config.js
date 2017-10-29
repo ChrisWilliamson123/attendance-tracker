@@ -20,11 +20,8 @@ const config = {
           }
         },
         {
-          test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-                 fallback: 'style-loader',
-                 use: 'css-loader',
-               })
+          test: /\.scss$/,
+          loaders: ['style-loader', 'css-loader', 'sass-loader']
         },
         {
           test: /\.(png|svg|jpg|gif)$/,

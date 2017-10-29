@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Scanner from './Scanner';
 
-require('../css/App.css');
+require('../css/App.scss');
 
 class App extends Component {
   constructor() {

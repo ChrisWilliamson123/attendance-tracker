@@ -1,6 +1,5 @@
 import Quagga from 'quagga';
 import React, { Component } from 'react';
-import $ from 'jquery';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Button from 'react-bootstrap/lib/Button';
 import Grid from 'react-bootstrap/lib/Grid';

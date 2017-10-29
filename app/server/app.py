@@ -1,8 +1,7 @@
 """
 Main entry point for the server
 """
-import argparse
-import atexit
+import argparse, atexit, ssl
 from flask import Flask, render_template
 from werkzeug.serving import run_simple
 from db import DatabaseManager

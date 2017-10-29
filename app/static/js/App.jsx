@@ -15,9 +15,9 @@ class App extends Component {
   }
 
   incrementAttendance = () =>
-    this.setState({
-      attendance: this.state.attendance + 1
-    });
+  this.setState({
+    attendance: this.state.attendance + 1
+  });
 
   render() {
     return (

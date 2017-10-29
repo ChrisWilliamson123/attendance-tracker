@@ -6,24 +6,24 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 class Header extends Component {
-    render() {
-        return (
-            <Navbar collapseOnSelect>
-                <Navbar.Header>
-                    <Navbar.Brand>
-                    <a href="/">Attendance Tracker</a>
-                    </Navbar.Brand>
-                    <Navbar.Toggle />
-                </Navbar.Header>
-                <Navbar.Collapse>
-                    <Nav>
-                        <NavItem href="#">Scanner</NavItem>
-                        <NavItem href="#">Statistics</NavItem>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-            )
-    }
+  render() {
+    return (
+      <Navbar collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <a href="/">Attendance Tracker</a>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav>
+            <NavItem href="#">Scanner</NavItem>
+            <NavItem href="#">Statistics</NavItem>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    )
+  }
 }
 
 export default Header;

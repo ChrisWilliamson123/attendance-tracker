@@ -15,9 +15,9 @@ class App extends Component {
   }
 
   incrementAttendance = () =>
-  this.setState({
-    attendance: this.state.attendance + 1
-  });
+    this.setState({
+      attendance: this.state.attendance + 1
+    });
 
   render() {
     return (
@@ -27,7 +27,6 @@ class App extends Component {
           <h3>Current attendance: {this.state.attendance}</h3>
           <Scanner
             incrementAttendance={this.incrementAttendance}
-            attendance={this.state.attendance}
           />
         </div>
       </div>

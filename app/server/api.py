@@ -19,21 +19,20 @@ class Action(IntEnum):
 def check_ticket():
   ticket_id = request.args.get('ticket_id')
   direction = Direction[request.args.get('direction')]
-  gate_id = request.args.get('gate_id')
   
-  return json.dumps(process_ticket_check(ticket_id, direction, gate_id))
+  return json.dumps(process_ticket_check(ticket_id, direction))
 
-def process_ticket_check(ticket_id, direction, gate_id):
+def process_ticket_check(ticket_id, direction):
   # TODO: Validate arguments
-  response = {'id':ticket_id, 'direction':direction,'gate_id':gate_id}
-  (action, message) = decide_response(ticket_id, direction, gate_id)
+  response = {'id':ticket_id, 'direction':direction}
+  (action, message) = decide_response(ticket_id, direction)
   response['action'] = action
   response['message'] = message
   response['time'] = int(time.time())
   DatabaseManager().insert_event(response)
   return response
 
-def decide_response(ticket_id, direction, gate_id):
+def decide_response(ticket_id, direction):
   # Allow iff the user is out and coming in, or if they're already in and they're going out
   is_in = is_in_event(ticket_id)
   allow = (not is_in and direction == Direction.IN) or (is_in and direction == Direction.OUT)

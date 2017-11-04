@@ -24,12 +24,6 @@ video, .drawingBuffer {
   transform: translate(-50%, -50%);
 }
 
-/*@media screen and (min-width: 768px) {
-    video {
-      height: 500px;
-    }
-}*/
-
 #interactive {
   position: relative;
   width: 640px;

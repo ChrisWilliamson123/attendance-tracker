@@ -66,13 +66,6 @@ class Scanner extends React.Component {
   render() {
     return (
       <Grid>
-        <Row>
-          <Col xs={12}>
-            <div className="text-center">
-              <Button bsSize="large" onClick={this.startScanning}>Start Scanning</Button>
-            </div>
-          </Col>
-        </Row>
         { this.state.scanning ?
           <Row>
             <Col xs={12}>
@@ -82,7 +75,14 @@ class Scanner extends React.Component {
               </div>
             </Col>
           </Row>
-          : null 
+          :
+          <Row>
+          <Col xs={12}>
+            <div className="text-center">
+              <Button bsSize="large" onClick={this.startScanning}>Start Scanning</Button>
+            </div>
+          </Col>
+        </Row>
         }
       </Grid>
     );

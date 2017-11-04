@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Quagga from 'quagga';
 import React, { Component } from 'react';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
@@ -55,8 +56,21 @@ class Scanner extends React.Component {
   }
 
   handleDetectedBarcode = barcode => {
+    console.log(barcode);
+    const code = parseInt(barcode.codeResult.code);
+    const direction = 'IN';
     this.setState({scanning: false});
-    this.props.incrementAttendance();
+    axios.get('/api/check_ticket', {
+      params: {
+        ticket_id: code,
+        direction: direction
+      }
+    })
+    .then(response => {
+      console.log(response);
+      if (response.data.action === 1) this.props.incrementAttendance();
+    })
+    .catch(error => console.log(error))
   }
 
   startScanning = () => {

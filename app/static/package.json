@@ -36,6 +36,7 @@
     ]
   },
   "dependencies": {
+    "axios": "^0.17.0",
     "quagga": "^0.12.1"
   }
 }

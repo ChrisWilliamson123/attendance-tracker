@@ -15,11 +15,12 @@ class App extends Component {
     }
   }
 
-  incrementAttendance = () =>
+  incrementAttendance = () => {
     this.setState((prevState, props) => ({
       attendance: this.state.attendance + 1,
       entries: prevState.entries.concat([new Date()])
     }));
+  }
 
   getReadableDate = date =>
     `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} \
@@ -39,7 +40,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <div className="container">
-          <div className="stats">
+          <div className="stats" ref={statsDiv => {this.statsDiv = statsDiv}}>
             <h3>Current attendance: {this.state.attendance}</h3>
             <h4>Last in: {this.getLastInTime()}</h4>
           </div>

@@ -39,7 +39,8 @@ class Scanner extends React.Component {
     });
 
     this.state = {
-      scanning: false
+      scanning: false,
+      error: ''
     }
   }
 
@@ -68,18 +69,27 @@ class Scanner extends React.Component {
     })
     .then(response => {
       console.log(response);
-      if (response.data.action === 1) this.props.incrementAttendance();
+      if (response.data.action === 1) {
+        this.props.incrementAttendance();
+      }
+      else this.handleRejectedBarcode(response.data.message);
     })
     .catch(error => console.log(error))
   }
 
-  startScanning = () => {
-    if (!this.state.scanning) this.setState({scanning: true});
+  handleRejectedBarcode = (errorMessage) => {
+    this.setState({error: errorMessage});
   }
+
+  startScanning = () => {
+    if (!this.state.scanning) this.setState({scanning: true, error: ''});
+  }
+
+  getScanButtonText = () => this.state.error.length ? 'Scan Again' : 'Start Scanning';
 
   render() {
     return (
-      <Grid>
+      <div>
         { this.state.scanning ?
           <Row>
             <Col xs={12}>
@@ -91,14 +101,15 @@ class Scanner extends React.Component {
           </Row>
           :
           <Row>
-          <Col xs={12}>
-            <div className="text-center">
-              <Button bsSize="large" onClick={this.startScanning}>Start Scanning</Button>
-            </div>
-          </Col>
-        </Row>
+            <Col xs={12}>
+              <div className="text-center">
+                <Button bsSize="large" onClick={this.startScanning}>{this.getScanButtonText()}</Button>
+                {this.state.error.length ? <p>Error: {this.state.error}</p> : null}
+              </div>
+            </Col>
+          </Row>
         }
-      </Grid>
+      </div>
     );
   }
 }

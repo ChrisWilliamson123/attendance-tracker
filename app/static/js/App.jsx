@@ -22,7 +22,9 @@ class App extends Component {
     }));
 
   getReadableDate = date =>
-    `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} at ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} \
+    at \
+    ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}:${("0" + date.getSeconds()).slice(-2)}`;
 
   getLastInTime = () => {
     const entries = this.state.entries;

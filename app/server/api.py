@@ -38,7 +38,7 @@ def decide_response(ticket_id, direction):
   allow = (not is_in and direction == Direction.IN) or (is_in and direction == Direction.OUT)
   action = Action.ACCEPT if allow else Action.DENY
   # TODO: Include abuse heuristics (e.g. if the same ticket has been used <n times in the past m minutes?)
-  return (action, '')
+  return (action, 'This barcode has entered the event already')
 
 @blueprint.route('/api/get_ticket_history', methods=['GET'])
 def get_ticket_history():

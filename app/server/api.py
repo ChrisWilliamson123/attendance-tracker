@@ -24,11 +24,14 @@ def check_ticket():
 
 def process_ticket_check(ticket_id, direction):
   # TODO: Validate arguments
-  response = {'id':ticket_id, 'direction':direction}
   (action, message) = decide_response(ticket_id, direction)
-  response['action'] = action
-  response['message'] = message
-  response['time'] = int(time.time())
+  response = {
+      'id':ticket_id,
+      'direction':direction,
+      'time':int(time.time()),
+      'action':action,
+      'message':message
+  }
   DatabaseManager().insert_event(response)
   return response
 
@@ -60,12 +63,10 @@ def is_in_event(ticket_id):
   # If there are no events, the person is assumed to be out
   if not events:
     return False
-  # Sort by time descending
-  events = sorted(events, key = lambda event: -event['time'])
   # Get the last event
   last_event = max(events, key = lambda event: event['time'])
-  return last_event['direction'] == Direction.IN 
-  
+  return last_event['direction'] == Direction.IN
+
 
 @blueprint.route('/api/get_event_status', methods=['GET'])
 def get_event_status():

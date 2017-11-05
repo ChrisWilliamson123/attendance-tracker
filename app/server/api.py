@@ -19,7 +19,7 @@ class Action(IntEnum):
 def check_ticket():
   ticket_id = request.args.get('ticket_id')
   direction = Direction[request.args.get('direction')]
-  
+
   return json.dumps(process_ticket_check(ticket_id, direction))
 
 def process_ticket_check(ticket_id, direction):
@@ -37,13 +37,14 @@ def decide_response(ticket_id, direction):
   is_in = is_in_event(ticket_id)
   allow = (not is_in and direction == Direction.IN) or (is_in and direction == Direction.OUT)
   action = Action.ACCEPT if allow else Action.DENY
+  message = 'This barcode has entered the event already' if action is Action.DENY else ''
   # TODO: Include abuse heuristics (e.g. if the same ticket has been used <n times in the past m minutes?)
-  return (action, 'This barcode has entered the event already' if action is Action.DENY else '')
+  return (action, message)
 
 @blueprint.route('/api/get_ticket_history', methods=['GET'])
 def get_ticket_history():
   ticket_id = request.args.get('ticket_id')
-  
+
   return json.dumps(get_ticket_history(ticket_id))
 
 def get_ticket_history(ticket_id):

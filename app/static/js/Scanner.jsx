@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Quagga from 'quagga';
 import React, { Component } from 'react';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
@@ -38,7 +39,8 @@ class Scanner extends React.Component {
     });
 
     this.state = {
-      scanning: false
+      scanning: false,
+      error: ''
     }
   }
 
@@ -55,24 +57,39 @@ class Scanner extends React.Component {
   }
 
   handleDetectedBarcode = barcode => {
+    console.log(barcode);
+    const code = parseInt(barcode.codeResult.code);
+    const direction = 'IN';
     this.setState({scanning: false});
-    this.props.incrementAttendance();
+    axios.get('/api/check_ticket', {
+      params: {
+        ticket_id: code,
+        direction: direction
+      }
+    })
+    .then(response => {
+      console.log(response);
+      if (response.data.action === 1) {
+        this.props.incrementAttendance();
+      }
+      else this.handleRejectedBarcode(response.data.message);
+    })
+    .catch(error => console.log(error))
+  }
+
+  handleRejectedBarcode = (errorMessage) => {
+    this.setState({error: errorMessage});
   }
 
   startScanning = () => {
-    if (!this.state.scanning) this.setState({scanning: true});
+    if (!this.state.scanning) this.setState({scanning: true, error: ''});
   }
+
+  getScanButtonText = () => this.state.error.length ? 'Scan Again' : 'Start Scanning';
 
   render() {
     return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <div className="text-center">
-              <Button bsSize="large" onClick={this.startScanning}>Start Scanning</Button>
-            </div>
-          </Col>
-        </Row>
+      <div>
         { this.state.scanning ?
           <Row>
             <Col xs={12}>
@@ -82,9 +99,17 @@ class Scanner extends React.Component {
               </div>
             </Col>
           </Row>
-          : null 
+          :
+          <Row>
+            <Col xs={12}>
+              <div className="text-center">
+                <Button bsSize="large" onClick={this.startScanning}>{this.getScanButtonText()}</Button>
+                {this.state.error.length ? <p>Error: {this.state.error}</p> : null}
+              </div>
+            </Col>
+          </Row>
         }
-      </Grid>
+      </div>
     );
   }
 }

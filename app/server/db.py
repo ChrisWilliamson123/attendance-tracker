@@ -9,7 +9,7 @@ class DatabaseManager():
             DatabaseManager.instance = None
         if not DatabaseManager.instance:
             DatabaseManager.instance = DatabaseManager.__DatabaseManager(database_file)
-            
+
     def __getattr__(self, name):
         return getattr(self.instance, name)
 
@@ -43,7 +43,7 @@ class DatabaseManager():
             query = 'INSERT INTO {} VALUES ({})'.format(table_name, '?,'*(columns-1) + '?')
             self.execute(query, values)
             self.connection.commit()
-    
+
         def select_from(self, table_name, fields):
             query = 'SELECT {} from {}'.format(','.join(fields), table_name)
             return self.execute(query).fetchall()
@@ -63,7 +63,7 @@ class DatabaseManager():
         def get_entries_for_ticket(self, ticket_id):
             query = 'SELECT * from event WHERE ticket_id == {}'.format(ticket_id)
             return self.execute(query).fetchall()
-    
+
         def get_all_entries(self):
             query = 'SELECT * from event'
             return self.execute(query).fetchall()
